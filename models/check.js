@@ -334,6 +334,8 @@ Check.statics.guessType = function(url) {
 
   if (url.search(/^http:\/\//) != -1) {
     type = 'http';
+  } else if (url.search(/^reverse:\/\//) != -1) {
+    type = 'reverse';
   } else if (url.search(/^https:\/\//) != -1) {
     type = 'https';
   } else if (url.search(/^udp:\/\//) != -1) {

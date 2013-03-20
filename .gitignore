@@ -1,3 +1,4 @@
+config/production.yaml
 config/development.yaml
 config/runtime.json
 plugins/index.js
