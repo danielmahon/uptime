@@ -8,8 +8,25 @@
 <div style="text-align:right">
   <a class="btn btn-primary" href="<%= route %>/checks/new">Create check</a>
 </div>
-<table class="table" id="checks">
+<table class="table checks" id="checks2">
   <thead>
+  	<tr>
+      <th class="group" colspan="4">BarTap Clients</th>
+    </tr>
+    <tr>
+      <th style="width:30%">Name</th>
+      <th style="width:20%">Status</th>
+      <th style="width:35%" title="Outage periods in the last 24h">Uptime</th>
+      <th style="width:15%" title="Average response time in the last 24h">Response Time</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<table class="table checks" id="checks">
+  <thead>
+  	<tr>
+      <th class="group" colspan="4">Web Hosting Clients</th>
+    </tr>
     <tr>
       <th style="width:30%">Name</th>
       <th style="width:20%">Status</th>
@@ -51,7 +68,12 @@ jQuery(document).ready(function($) {
   $('.navbar-inner li').eq(1).addClass('active');
   
   // make the chesk table sortable
-  $('#checks').tablesorter({
+  $('table.checks').tablesorter({
+    headers: {
+      0: {
+        sorter: false
+      }
+    },
     textExtraction: function(node) {
       return $(node).data('sort');
     },
@@ -66,14 +88,20 @@ jQuery(document).ready(function($) {
   var updateChecks = function(checks) {
     var updateChecksSection = function(checks) {
       var lines = [];
+      var lines2 = [];
       var lastTest = 0;
       $.each(checks, function(key, check) {
         if (new Date(check.lastTested) > lastTest) {
           lastTest = new Date(check.lastTested);
         }
-        lines.push(ejs.render(check_template, { check: check, route: '<%= route %>' }));
+        if (check.tags.indexOf('BarTap') !== -1) {
+          lines2.push(ejs.render(check_template, { check: check, route: '<%= route %>' }));
+        } else {
+          lines.push(ejs.render(check_template, { check: check, route: '<%= route %>' }));
+        }
       });
       $('#checks tbody').html(lines.join(''));
+      $('#checks2 tbody').html(lines2.join(''));
       $('#checks').trigger('update');
     }
     if (checks) {

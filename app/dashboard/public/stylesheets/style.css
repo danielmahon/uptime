@@ -201,6 +201,15 @@ table.chart th.uptimeCol {
   width: 22%;
 }
 
+table.checks {
+	margin-top: 20px;
+}
+
+table.checks th.group {
+	background-color: #DDDDDD;
+	color: #333;
+}
+
 #sectionList section {
   padding-top: 88px;
 }
